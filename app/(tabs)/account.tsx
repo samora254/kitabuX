@@ -1,11 +1,57 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { User, Settings, Bell, Globe, CreditCard as Edit3, LogOut, ChevronRight } from 'lucide-react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Account() {
+  const router = useRouter();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [isKiswahili, setIsKiswahili] = useState(false);
+  const [userName, setUserName] = useState('Student');
+
+  useEffect(() => {
+    const loadUserName = async () => {
+      try {
+        const storedName = await AsyncStorage.getItem('user_name');
+        if (storedName) {
+          setUserName(storedName);
+        }
+      } catch (error) {
+        console.error('Error loading user name:', error);
+      }
+    };
+
+    loadUserName();
+  }, []);
+
+  const handleSignOut = () => {
+    Alert.alert(
+      'Sign Out',
+      'Are you sure you want to sign out? You will lose any unsaved progress.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Sign Out',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              // Clear all stored user data
+              await AsyncStorage.clear();
+              // Navigate to onboarding
+              router.replace('/onboarding');
+            } catch (error) {
+              console.error('Error signing out:', error);
+            }
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -16,7 +62,7 @@ export default function Account() {
             <User size={40} color="#22C55E" />
           </View>
           <View style={styles.profileInfo}>
-            <Text style={styles.userName}>Student</Text>
+            <Text style={styles.userName}>{userName}</Text>
             <Text style={styles.userGrade}>Grade 6 • CBC Program</Text>
           </View>
           <TouchableOpacity style={styles.editButton}>
@@ -104,7 +150,10 @@ export default function Account() {
 
         {/* Sign Out */}
         <View style={styles.settingsSection}>
-          <TouchableOpacity style={[styles.settingItem, styles.signOutItem]}>
+          <TouchableOpacity 
+            style={[styles.settingItem, styles.signOutItem]}
+            onPress={handleSignOut}
+          >
             <View style={[styles.settingIcon, { backgroundColor: '#FEE2E2' }]}>
               <LogOut size={20} color="#EF4444" />
             </View>

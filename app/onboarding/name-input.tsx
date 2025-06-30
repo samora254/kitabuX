@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, Keyboa
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -9,9 +10,21 @@ export default function NameInput() {
   const router = useRouter();
   const [name, setName] = useState('');
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (name.trim()) {
-      router.replace('/(tabs)');
+      try {
+        // Save the user's name
+        await AsyncStorage.setItem('user_name', name.trim());
+        // Mark onboarding as complete
+        await AsyncStorage.setItem('onboarding_complete', 'true');
+
+        console.log('User setup complete:', { name: name.trim() });
+
+        // Navigate to main app
+        router.replace('/(tabs)');
+      } catch (error) {
+        console.error('Error saving user data:', error);
+      }
     }
   };
 
