@@ -5,12 +5,14 @@ export default function OnboardingLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="subject-selection" />
+      <Stack.Screen name="grade-selection" />
       <Stack.Screen name="skill-level" />
       <Stack.Screen name="focus-area" />
       <Stack.Screen name="interests" />
       <Stack.Screen name="struggles" />
       <Stack.Screen name="time-commitment" />
       <Stack.Screen name="study-plan-loading" />
+      <Stack.Screen name="study-plan-preview" />
       <Stack.Screen name="name-input" />
     </Stack>
   );
