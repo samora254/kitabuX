@@ -13,17 +13,15 @@ export default function NameInput() {
   const handleContinue = async () => {
     if (name.trim()) {
       try {
-        // Save the user's name
-        await AsyncStorage.setItem('user_name', name.trim());
-        // Mark onboarding as complete
-        await AsyncStorage.setItem('onboarding_complete', 'true');
+        // Save the user's name temporarily
+        await AsyncStorage.setItem('temp_user_name', name.trim());
 
-        console.log('User setup complete:', { name: name.trim() });
+        console.log('Name saved:', { name: name.trim() });
 
-        // Navigate to main app
-        router.replace('/(tabs)');
+        // Navigate to account creation
+        router.push('/onboarding/account-creation');
       } catch (error) {
-        console.error('Error saving user data:', error);
+        console.error('Error saving user name:', error);
       }
     }
   };
@@ -40,7 +38,7 @@ export default function NameInput() {
             <View style={styles.progressBar}>
               <View style={[styles.progressFill, { width: '100%' }]} />
             </View>
-            <Text style={styles.progressText}>8 of 8</Text>
+            <Text style={styles.progressText}>8 of 9</Text>
           </View>
 
           {/* Message */}

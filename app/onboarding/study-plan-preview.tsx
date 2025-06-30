@@ -79,7 +79,7 @@ export default function StudyPlanPreview() {
     // Simulate saving process
     setTimeout(() => {
       setIsSaving(false);
-      router.push('/onboarding/name-input');
+      router.push('/onboarding/report');
     }, 1500);
   };
 

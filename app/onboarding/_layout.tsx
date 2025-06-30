@@ -13,7 +13,9 @@ export default function OnboardingLayout() {
       <Stack.Screen name="time-commitment" />
       <Stack.Screen name="study-plan-loading" />
       <Stack.Screen name="study-plan-preview" />
+      <Stack.Screen name="report" />
       <Stack.Screen name="name-input" />
+      <Stack.Screen name="account-creation" />
     </Stack>
   );
 }
