@@ -27,30 +27,7 @@ export default function Account() {
   }, []);
 
   const handleSignOut = () => {
-    Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out? You will lose any unsaved progress.',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Sign Out',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              // Clear all stored user data
-              await AsyncStorage.clear();
-              // Navigate to onboarding
-              router.replace('/onboarding');
-            } catch (error) {
-              console.error('Error signing out:', error);
-            }
-          },
-        },
-      ]
-    );
+    router.replace('/onboarding');
   };
 
   return (
@@ -73,7 +50,7 @@ export default function Account() {
         {/* Settings Sections */}
         <View style={styles.settingsSection}>
           <Text style={styles.sectionTitle}>Preferences</Text>
-          
+
           <View style={styles.settingItem}>
             <View style={styles.settingIcon}>
               <Bell size={20} color="#3B82F6" />
@@ -111,7 +88,7 @@ export default function Account() {
 
         <View style={styles.settingsSection}>
           <Text style={styles.sectionTitle}>Learning</Text>
-          
+
           <TouchableOpacity style={styles.settingItem}>
             <View style={styles.settingIcon}>
               <Settings size={20} color="#8B5CF6" />
@@ -127,7 +104,7 @@ export default function Account() {
         {/* Stats Cards */}
         <View style={styles.statsSection}>
           <Text style={styles.sectionTitle}>Your Progress</Text>
-          
+
           <View style={styles.statsGrid}>
             <View style={styles.statCard}>
               <Text style={styles.statNumber}>7</Text>

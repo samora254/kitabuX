@@ -1,13 +1,9 @@
-import { useEffect } from 'react';
 
-declare global {
-  interface Window {
-    frameworkReady?: () => void;
-  }
-}
+import { useEffect } from 'react';
+import '../global.css';
 
 export function useFrameworkReady() {
   useEffect(() => {
-    window.frameworkReady?.();
-  });
+    // Framework is ready
+  }, []);
 }

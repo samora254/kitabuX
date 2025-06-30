@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  useFrameworkReady();
   const router = useRouter();
   const segments = useSegments();
-  const [isOnboardingComplete, setIsOnboardingComplete] = useState<boolean | null>(null);
+  const [isOnboardingComplete, setIsOnboardingComplete] = useState<boolean>(false);
   
   const [fontsLoaded, fontError] = useFonts({
     'Inter-Regular': Inter_400Regular,
@@ -23,27 +20,13 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    const checkOnboardingStatus = async () => {
-      try {
-        const onboardingStatus = await AsyncStorage.getItem('onboarding_complete');
-        setIsOnboardingComplete(onboardingStatus === 'true');
-      } catch (error) {
-        console.error('Error checking onboarding status:', error);
-        setIsOnboardingComplete(false);
-      }
-    };
-
-    checkOnboardingStatus();
-  }, []);
-
-  useEffect(() => {
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
 
   useEffect(() => {
-    if (isOnboardingComplete === null || !fontsLoaded) return;
+    if (!fontsLoaded) return;
 
     const inOnboarding = segments[0] === 'onboarding';
     
