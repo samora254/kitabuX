@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { User, Settings, Bell, Globe, CreditCard as Edit3, LogOut, ChevronRight } from 'lucide-react-native';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AsyncStorage } from '../../utils/storage';
 
 export default function Account() {
   const router = useRouter();
